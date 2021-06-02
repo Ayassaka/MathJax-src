@@ -61,6 +61,18 @@ export default class TexParser {
   public i: number = 0;
 
   /**
+   * Base position in the string that is parsed.
+   * @type {number}
+   */
+  public baseI: number;
+
+  /**
+   * Previous position in the string that is parsed.
+   * @type {number}
+   */
+  public prevI: number;
+
+  /**
    * The last command sequence
    * @type {string}
    */
@@ -74,6 +86,7 @@ export default class TexParser {
    * @param {ParseOptions} configuration A parser configuration.
    */
   constructor(private _string: string, env: EnvList, public configuration: ParseOptions) {
+    this.baseI = this.prevI = configuration.parser?.actualI - _string.length - 1 | 0;
     const inner = env.hasOwnProperty('isInner');
     const isInner = env['isInner'] as boolean;
     delete env['isInner'];
@@ -187,6 +200,13 @@ export default class TexParser {
     }
   }
 
+  /**
+   * Returns the actual location that is being parsed in the original string.
+   */
+  public get actualI(): number {
+    return this.i + this.baseI;
+  }
+
 
   /**
    * Pushes a new item onto the stack. The item can also be a Mml node,
@@ -194,6 +214,12 @@ export default class TexParser {
    * @param {StackItem|MmlNode} arg The new item.
    */
   public Push(arg: StackItem | MmlNode) {
+    if (arg instanceof AbstractMmlNode) {
+      arg.beginLoc = this.prevI;
+      arg.endLoc = this.actualI;
+    }
+    // console.log(this.prevI, this.actualI, arg);
+    this.prevI = this.actualI;
     if (arg instanceof AbstractMmlNode && arg.isInferred) {
       this.PushAll(arg.childNodes);
     } else {

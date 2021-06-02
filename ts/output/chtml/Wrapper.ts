@@ -28,6 +28,7 @@ import {CHTML} from '../chtml.js';
 import {CHTMLWrapperFactory} from './WrapperFactory.js';
 import {BBox} from '../../util/BBox.js';
 import {CHTMLFontData, CHTMLCharOptions, CHTMLDelimiterData} from './FontData.js';
+import { AbstractMmlNode } from '../../core/MmlTree/MmlNode.js';
 
 export {Constructor, StringMap} from '../common/Wrapper.js';
 
@@ -389,6 +390,10 @@ CommonWrapper<
    * @return {N}               The generated HTML tree
    */
   public html(type: string, def: OptionList = {}, content: (N | T)[] = []): N {
+    if (this.node instanceof AbstractMmlNode && this.node.beginLoc) {
+      def['beginLoc'] = this.node.beginLoc;
+      def['endLoc'] = this.node.endLoc;
+    }
     return this.jax.html(type, def, content);
   }
 

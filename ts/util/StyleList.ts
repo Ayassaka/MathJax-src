@@ -98,6 +98,7 @@ export class CssStyles {
     const defs: string[] = new Array(selectors.length);
     let i = 0;
     for (const selector of selectors) {
+      if (selector.startsWith('@font-face')) continue;
       defs[i++] = selector + ' {\n' + this.getStyleDefString(this.styles[selector]) + '\n}';
     }
     return defs.join('\n\n');

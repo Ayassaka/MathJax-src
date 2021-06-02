@@ -313,6 +313,17 @@ export abstract class AbstractMmlNode extends AbstractNode implements MmlNode {
    */
   protected texclass: number = null;
 
+
+  /**
+   *  The corresponding location in source code
+   */
+  public beginLoc: number = null;
+
+  /**
+   *  The corresponding location in source code
+   */
+  public endLoc: number = null;
+
   /**
    *  Create an MmlNode:
    *    If the arity is -1, add the inferred row (created by the factory)

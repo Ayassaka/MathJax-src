@@ -56,9 +56,11 @@ BaseMethods.Tilde = function (parser, _c) {
 BaseMethods.Space = function (_parser, _c) { };
 BaseMethods.Superscript = function (parser, _c) {
     var _a;
+    var decBase = false;
     if (parser.GetNext().match(/\d/)) {
         parser.string = parser.string.substr(0, parser.i + 1) +
             ' ' + parser.string.substr(parser.i + 1);
+        decBase = true;
     }
     var primes;
     var base;
@@ -99,13 +101,16 @@ BaseMethods.Superscript = function (parser, _c) {
     parser.Push(parser.itemFactory.create('subsup', base).setProperties({
         position: position, primes: primes, movesupsub: movesupsub
     }));
+    parser.decBase = decBase;
 };
 BaseMethods.Subscript = function (parser, _c) {
     var _a;
+    var decBase = false;
     if (parser.GetNext().match(/\d/)) {
         parser.string =
             parser.string.substr(0, parser.i + 1) + ' ' +
                 parser.string.substr(parser.i + 1);
+        decBase = true;
     }
     var primes, base;
     var top = parser.stack.Top();
@@ -145,6 +150,7 @@ BaseMethods.Subscript = function (parser, _c) {
     parser.Push(parser.itemFactory.create('subsup', base).setProperties({
         position: position, primes: primes, movesupsub: movesupsub
     }));
+    parser.decBase = decBase;
 };
 BaseMethods.Prime = function (parser, c) {
     var base = parser.stack.Prev();

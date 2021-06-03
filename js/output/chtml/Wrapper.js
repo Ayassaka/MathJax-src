@@ -278,7 +278,7 @@ var CHTMLWrapper = (function (_super) {
     CHTMLWrapper.prototype.html = function (type, def, content) {
         if (def === void 0) { def = {}; }
         if (content === void 0) { content = []; }
-        if (this.node instanceof MmlNode_js_1.AbstractMmlNode && this.node.beginLoc) {
+        if (this.node instanceof MmlNode_js_1.AbstractMmlNode && this.node.beginLoc !== null) {
             def['beginLoc'] = this.node.beginLoc;
             def['endLoc'] = this.node.endLoc;
         }

@@ -151,6 +151,10 @@ var TexParser = (function () {
             arg.endLoc = this.actualI;
         }
         this.prevI = this.actualI;
+        if (this.decBase) {
+            this.baseI--;
+            this.decBase = false;
+        }
         if (arg instanceof MmlNode_js_1.AbstractMmlNode && arg.isInferred) {
             this.PushAll(arg.childNodes);
         }

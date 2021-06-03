@@ -67,6 +67,12 @@ export default class TexParser {
   public baseI: number;
 
   /**
+   * Whether need to decrement base because of insertion of space.
+   * @type {boolean}
+   */
+  public decBase: boolean;
+
+  /**
    * Previous position in the string that is parsed.
    * @type {number}
    */
@@ -220,6 +226,10 @@ export default class TexParser {
     }
     // console.log(this.prevI, this.actualI, arg);
     this.prevI = this.actualI;
+    if (this.decBase) {
+      this.baseI--;
+      this.decBase = false;
+    }
     if (arg instanceof AbstractMmlNode && arg.isInferred) {
       this.PushAll(arg.childNodes);
     } else {

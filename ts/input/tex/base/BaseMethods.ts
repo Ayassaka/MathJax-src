@@ -99,10 +99,12 @@ BaseMethods.Space = function(_parser: TexParser, _c: string) {};
  * @param {string} c The parsed character.
  */
 BaseMethods.Superscript = function(parser: TexParser, _c: string) {
+  let decBase = false;
   if (parser.GetNext().match(/\d/)) {
     // don't treat numbers as a unit
     parser.string = parser.string.substr(0, parser.i + 1) +
       ' ' + parser.string.substr(parser.i + 1);
+    decBase = true;
   }
   let primes: MmlNode;
   let base: MmlNode | void;
@@ -149,6 +151,7 @@ BaseMethods.Superscript = function(parser: TexParser, _c: string) {
     parser.itemFactory.create('subsup', base).setProperties({
       position: position, primes: primes, movesupsub: movesupsub
     }) );
+  parser.decBase = decBase;
 };
 
 
@@ -158,11 +161,13 @@ BaseMethods.Superscript = function(parser: TexParser, _c: string) {
  * @param {string} c The parsed character.
  */
 BaseMethods.Subscript = function(parser: TexParser, _c: string) {
+  let decBase = false;
   if (parser.GetNext().match(/\d/)) {
     // don't treat numbers as a unit
     parser.string =
       parser.string.substr(0, parser.i + 1) + ' ' +
       parser.string.substr(parser.i + 1);
+    decBase = true;
   }
   let primes, base;
   const top = parser.stack.Top();
@@ -207,6 +212,7 @@ BaseMethods.Subscript = function(parser: TexParser, _c: string) {
     parser.itemFactory.create('subsup', base).setProperties({
       position: position, primes: primes, movesupsub: movesupsub
     }) );
+  parser.decBase = decBase;
 };
 
 

@@ -14,6 +14,7 @@ export default class TexParser {
     stack: Stack;
     i: number;
     baseI: number;
+    decBase: boolean;
     prevI: number;
     currentCS: string;
     constructor(_string: string, env: EnvList, configuration: ParseOptions);

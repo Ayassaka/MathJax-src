@@ -390,7 +390,7 @@ CommonWrapper<
    * @return {N}               The generated HTML tree
    */
   public html(type: string, def: OptionList = {}, content: (N | T)[] = []): N {
-    if (this.node instanceof AbstractMmlNode && this.node.beginLoc) {
+    if (this.node instanceof AbstractMmlNode && this.node.beginLoc !== null) {
       def['beginLoc'] = this.node.beginLoc;
       def['endLoc'] = this.node.endLoc;
     }
